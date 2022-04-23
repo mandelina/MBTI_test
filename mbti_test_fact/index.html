@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MBTI</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <!-- --------------------html코드-------------------------- -->
+  <body class="container">
+    <article class="start">
+      <h1 class="mt-5 text-center">나의 mbti 팩폭</h1>
+      <img src="./image/팩폭.PNG" alt="" />
+      <button type="button" class="btn btn-secondary mt-5" onclick="start()">
+        테스트 시작하기
+      </button>
+    </article>
+
+    <article class="question">
+      <div class="progress mt-5">
+        <div
+          class="progress-bar bg-warning"
+          role="progressbar"
+          style="width: calc(100 / 12 * 0%)"
+        ></div>
+      </div>
+      <h2 id="title" class="text-center mt-5">문제</h2>
+      <input id="type" type="hidden" value="EI" />
+      <button id="A" type="button" class="btn btn-outline-dark mt-5">
+        Dark</button
+      ><button id="B" type="button" class="btn btn-outline-dark mt-5">
+        Dark
+      </button>
+    </article>
+
+    <article class="result">
+      <!-- <img id="img" class="rounded-circle mt-5" src=" " alt="" /> -->
+      <h2 id="animal" class="text-center mt-5">MBTI타입</h2>
+      <h3 id="explain" class="text-center mt-5">설명</h3>
+
+      <!-- Go to www.addthis.com/dashboard to customize your tools -->
+      <div class="addthis_inline_share_toolbox share"></div>
+    </article>
+    <input type="hidden" id="EI" value="0" />
+    <input type="hidden" id="SN" value="0" />
+    <input type="hidden" id="TF" value="0" />
+    <input type="hidden" id="JP" value="0" />
+    <!-- -----------------------js코드-------------------------- -->
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- -----------------------js코드-------------------------- -->
+
+    <script>
+      var num = 1;
+      var q = {
+        1: {
+          title: "기분이 안좋다. 당신의 선택은?",
+          type: "EI",
+          A: "사람들과 만나서 논다.",
+          B: "집에서 쉰다.",
+        },
+        2: {
+          title: "새로운 사람을 만난다. 당신의 선택은?",
+          type: "EI",
+          A: "어색한 침묵을 못견디고 말을 걸어본다.",
+          B: "조용히 있는다.",
+        },
+        3: {
+          title: "다른 사람과 이야기 할 때 ?",
+          type: "EI",
+          A: "내가 말을 하는 편이다.",
+          B: "주로 듣는 편이다.",
+        },
+        4: {
+          title: " '아무생각하지마'라고 했을때 당신의 생각은? ",
+          type: "SN",
+          A: "정말 아무생각도 안한다.",
+          B: "아무생각도 하지않기 위해 생각을 한다.",
+        },
+        5: {
+          title: "영화를 보고 난 후에 당신의 생각은?",
+          type: "SN",
+          A: "재밌는영화였다. 밥먹으러 가야지",
+          B: "여운이 가시질 않는다. 영화 해석을 검색해본다.",
+        },
+        6: {
+          title: "공부하기 싫을때 당신의 생각은?",
+          type: "SN",
+          A: "범위가 줄었으면 좋겠다 .. 이번 점수 잘받아야하는데 ..",
+          B: "시험을 왜 봐야할까? 시험이 없어지는 시대는 올까?",
+        },
+        7: {
+          title: "지인이 취업이 안될 때 힘들어하고 있다. 이때 당신의 말은?",
+          type: "TF",
+          A: "이력서는 넣어봤어? 어떤쪽으로 생각하고 있는데?",
+          B: "힘들지.. 요즘 취업하기 힘든 세상이래잖아~",
+        },
+        8: {
+          title: "누군가 본인을 싫어하는 것을 알았을때",
+          type: "TF",
+          A: "왜 나를 싫어하지?(진짜 궁금함)",
+          B: "왜 나를 싫어하지? (기분나쁘게 한적 있는지 생각해 본다.)",
+        },
+        9: {
+          title: "친구가 배탈이 났을때 당신의 말은?",
+          type: "TF",
+          A: "뭐 먹었는데?",
+          B: "괜찮아? 어떡해..",
+        },
+        10: {
+          title: "과제를 할 때, 나는",
+          type: "JP",
+          A: "먼저 계획을 세운다.",
+          B: "일단 과제를 시작해보고 틀을 잡아 본다.",
+        },
+        11: {
+          title: "친구를 만나기로 했을때",
+          type: "JP",
+          A: "머리속에 뭘 할지 루트를 그려 놓는다.",
+          B: "일단 만나고 나서 생각한다.",
+        },
+        12: {
+          title: "친구들을 집에 초대했다. 음식을 대접할 때, 당신은?",
+          type: "JP",
+          A: "음식이 모자라지 않을까? 저번에는 어느정도 양을 만들었지?",
+          B: "일단 만들어보고, 모자르면 치킨을 시키자 ",
+        },
+      };
+      var result = {
+        ISTJ: {
+          animal: "ISTJ",
+          explain:
+            " -MBTI는 근거 없는 유사과학이라고 생각함 \n -가끔 공감능력 부족한 거 같다는 소리 들음\n - 철벽 잘 침 \n- 협동하고 이런거 극혐 그냥 나혼자 하는게 젤 편하고 젤 빠름 \n-남 눈치봄 ",
+          img: "",
+        },
+        ISFJ: {
+          animal: "ISFJ",
+          explain:
+            "– 내향형인데 상황에 따라 외향적인 척 코스프레 가능함 \n– 나서는 거 싫어하는데 관심받는 건 좋음\n – 뒤끝 있음\n -게으른 완벽주의자  ",
+          img: " ",
+        },
+        INFJ: {
+          animal: "INFJ",
+          explain:
+            "- 생각이 너무 많음\n -겉으로 웃는데 속으로 욕 많이 함\n - 감수성 풍부 \n-다같이 노는 무의미한 시간이 제일 지루",
+          img: " ",
+        },
+        INTJ: {
+          animal: "INTJ",
+          explain:
+            "-이성적인데 감성적 -성격 이상하다는 생각 스스로 자주 함 \n-특이하고 특별한데 남에게 그런소리 듣는 건 싫음\n-약간 관종끼 있지만 내성적이라 표출은 안함 \n-공상 잦음, 어떤 사안이나 작품에 대해 다각도로 해석하는 거 좋아함 \n-굉장한 개인주의자, 이기적",
+          img: " ",
+        },
+        ISTP: {
+          animal: "ISTP",
+          explain:
+            "- 만사가 귀찮음\n -내가 제일 잘난줄 암 \n-노력절약형, 효율적인거 개 좋아함 \n-관종이라 관심받는건 좋은데 시끄러운건 싫어함\n -엠비티아이, 사주, 타로 관심많음\n -누가 내 욕해도 별로 신경 안씀",
+          img: " ",
+        },
+        ISFP: {
+          animal: "ISFP",
+          explain:
+            "-자존감 낮음 -미룰 수 있을때까지 미룸 \n-남 눈치 많이 봄 \n-조용한 관종 \n-집에가면 연락두절됨 \n-감정기복 심하고 공감능력 개쩜 ",
+          img: " ",
+        },
+        INFP: {
+          animal: "INFP",
+          explain:
+            "-완전 처음 보는 사람한테는 말 잘 거는데 학교같이 조직생활 하는 곳에서는 낯 엄청 가림\n -가끔 우울한 나에 심취 \n-멀티 안됨\n -연락 귀찮아함 \n-안읽씹 잘함 \n-시작은 창대하나, 정작 끝을 내는 법은 없음 근데 또 하면 평균 이상 \n-혼자 있는건 좋은데 외로운 건 싫음",
+          img: " ",
+        },
+        INTP: {
+          animal: "INTP",
+          explain:
+            "-무뚝뚝한 편이고 잡담같은것도 잘 못하고 싫어함 \n-지식에 대한 욕망 강함 \n-감정기복 없음\n -개인주의자\n -완벽하게 못할거면 안함\n -자기주관 뚜렷, 호불호 확실 \n-인간관계 계산적",
+          img: " ",
+        },
+        ESTP: {
+          animal: "ESTP",
+          explain:
+            "-표현을 아끼지 않음\n -공감능력 조금 부족 \n-스트레스도 잘 안받음 근데 그렇게 적극적인 편도 아님 걍 사는대로 삼\n -어른들이 좋아함\n -근자감 쩔 \n-모임에서 어느새 내가 분위기 주도하고 있음(정신차리고 보면 내가 다 역할 정해주고 조장하고 있음)",
+          img: " ",
+        },
+        ESFP: {
+          animal: "ESFP",
+          explain:
+            "-오지랖 심함 \n -혼자있으면 지루해서 뭔갈 계속 함\n - 자존감 너무 높음 -사람들이랑 어울리는거 너무 좋은데 집밖에 나가기가 귀찮음 \n-생각없이 잘삼\n -성격 개 급함",
+          img: "",
+        },
+        ENFP: {
+          animal: "ENFP",
+          explain:
+            "-정신산만하고 생각많음\n - 고집셈 \n- 생존에 의한 인싸력\n -쉽게 몰두했다가 쉽게 그만둠\n -거짓말 못함\n -감정기복 심함\n -눈치 개빠른데 모른척\n -내가 하고싶은거 꼭해야함\n -나서는거 좋아함",
+          img: " ",
+        },
+        ENTP: {
+          animal: "ENTP",
+          explain:
+            "-개썅마이웨이 \n-혼자서 돌아다니는거 좋아함\n -자존심 셈\n -변덕심함 \n-자기애 강함 \n- 다른사람들 일에 관심 없고 남이 나를 어떻게 생각하는지에 대해도 관심없음\n - 끈기부족,의지부족\n - 잡지식은 많이 아는데 관심없는건 1도 모름",
+          img: " ",
+        },
+        ESTJ: {
+          animal: "ESTJ",
+          explain:
+            "고집셈 | 사람많은거 극혐 | 리더맡는거 싫어하는데 막상 맡으면 잘함 | 목표 설정해넣고 그 목표 이룰때까지 한 우물만 팜 |공감능력 부족 | 그지만 상처받을까봐 아무말도 안함",
+          img: " ",
+        },
+        ESFJ: {
+          animal: "ESFJ",
+          explain:
+            "-생각보다 철저함 \n -혼자 계획세우고 그 계획 틀어지면 싫어함\n -남 눈치 많이봄\n -책읽고 영화보는거 좋아함 \n-상담,고민들어주는거 잘함\n -주변사람이 불행하면 나까지 불행함\n -어디 나가면 어색한거 못참고 먼저 말검\n -친목질",
+          img: " ",
+        },
+        ENFJ: {
+          animal: "ENFJ",
+          explain:
+            "- 개시끄러움 -핵인싸가 되고싶어함\n -단순하고 멘탈강함 \n-남들 눈치잘봄 -\n남들 신경쓰고 잘하려하는데 그만큼 상처도 잘받음 \n-우유부단함",
+          img: " ",
+        },
+        ENTJ: {
+          animal: "ENTJ",
+          explain:
+            "-내일은 내일 , 니일은 니일\n - 감정적 공감 잘안됨 \n-앞일 걱정에 오만가지 루트를 머리속에 시뮬레이션 다해보고 해결책을 찾아감\n - 매우 현실적, 근데 혼자있을땐 상상력 오짐 \n- 사람많을땐 정상인 혼자있을땐 몽상가\n -자기애 강함",
+          img: " ",
+        },
+      };
+      function start() {
+        $(".start").hide();
+        $(".question").show();
+        next();
+      }
+
+      $("#A").click(function () {
+        var type = $("#type").val();
+        var preValue = $("#" + type).val();
+        $("#" + type).val(parseInt(preValue) + 1);
+        next();
+      });
+
+      $("#B").click(function () {
+        next();
+      });
+
+      function next() {
+        if (num == 13) {
+          $(".question").hide();
+          $(".result").show();
+          var mbti = "";
+          $("#EI").val() < 2 ? (mbti += "I") : (mbti += "E");
+          $("#SN").val() < 2 ? (mbti += "N") : (mbti += "S");
+          $("#TF").val() < 2 ? (mbti += "F") : (mbti += "T");
+          $("#JP").val() < 2 ? (mbti += "P") : (mbti += "J");
+          // $("#img").attr("src", result[mbti]["img"]);
+          $("#animal").html(result[mbti]["animal"]);
+          $("#explain").html(result[mbti]["explain"]);
+        } else {
+          $(".progress-bar").attr("style", "width: calc(100/12*" + num + "%)");
+          $("#title").html(q[num]["title"]);
+          $("#type").val(q[num]["type"]);
+          $("#A").html(q[num]["A"]);
+          $("#B").html(q[num]["B"]);
+          num++;
+        }
+      }
+    </script>
+
+    <script
+      type="text/javascript"
+      src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-6262aea36d135a8f"
+    ></script>
+  </body>
+</html>
